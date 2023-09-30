@@ -72,9 +72,9 @@
 			</div>
 		{/each}
 	</div>
-	<div>
-		<p class="sign">* Powered by WordNet (A Lexical Database for English). Made by HYH!</p>
-	</div>
+</div>
+<div>
+	<p class="sign">* Powered by WordNet (A Lexical Database for English). Made by HYH!</p>
 </div>
 
 <style lang="postcss">
