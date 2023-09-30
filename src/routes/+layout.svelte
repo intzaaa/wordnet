@@ -1,4 +1,6 @@
 <script>
+	import 'core-js/stable';
+	import 'regenerator-runtime';
 	import '../app.css';
 	import '@fontsource-variable/montserrat';
 </script>
