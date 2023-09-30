@@ -41,6 +41,9 @@ devDependencies:
   eslint-plugin-svelte:
     specifier: ^2.33.2
     version: 2.33.2(eslint@8.50.0)(svelte@4.2.1)
+  fzstd:
+    specifier: ^0.1.0
+    version: 0.1.0
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
@@ -1316,6 +1319,10 @@ packages:
 
   /function-bind@1.1.1:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
+    dev: true
+
+  /fzstd@0.1.0:
+    resolution: {integrity: sha512-TTvznnpde1rTv/3FOmZMbPCh75gqkJ9dKJdsKmcNiXh4olLJl3eRahHJcGzyPZjuVaytffP02Or4z5avDvqKQA==}
     dev: true
 
   /get-func-name@2.0.2:
