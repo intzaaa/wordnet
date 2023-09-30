@@ -11,11 +11,15 @@
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write ."
 	},
+	"browserslist": [
+		">= 0.01%"
+	],
 	"devDependencies": {
 		"@fontsource-variable/montserrat": "^5.0.9",
 		"@fontsource/fira-mono": "^4.5.10",
 		"@neoconfetti/svelte": "^1.0.0",
 		"@sveltejs/adapter-auto": "^2.1.0",
+		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.25.1",
 		"@types/cookie": "^0.5.2",
 		"autoprefixer": "^10.4.16",
