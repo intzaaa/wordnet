@@ -1,6 +1,5 @@
 /*
   Access-Control-Allow-Origin: *
-  Content-Encoding: br, gzip
 
 /wordnet.json.gz
   Content-Type: application/json  
