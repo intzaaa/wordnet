@@ -23,15 +23,15 @@
 		@apply flex h-full w-full flex-col;
 	}
 	.input {
-		@apply h-[20vh] w-full;
+		@apply h-[20vh] w-full bg-slate-200 pl-2 pr-2;
 	}
 	.info {
 		@apply flex h-[80vh] flex-row;
 	}
 	.list {
-		@apply h-full w-[30%] overflow-hidden;
+		@apply h-full w-[30%] overflow-hidden bg-slate-100 pl-2;
 	}
 	.word {
-		@apply h-full w-[70%] overflow-y-scroll;
+		@apply h-full w-[70%] overflow-y-scroll bg-slate-50 pr-2;
 	}
 </style>

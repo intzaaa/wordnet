@@ -9,7 +9,7 @@
 		words = new Set();
 		_.each($wordnet.synset, (i) => {
 			_.each(i.word, (i) => {
-				if (i.startsWith(v)) {
+				if (i.toLowerCase().startsWith(v.replaceAll(' ', '_').toLowerCase())) {
 					words.add(i);
 				}
 			});
@@ -19,7 +19,14 @@
 </script>
 
 <div class="main">
-	<VirtualList items={Array.from(words).toSorted()} itemHeight={24} let:item let:index>
+	<VirtualList
+		items={Array.from(words)
+			.map((i) => i.replaceAll('_', ' '))
+			.toSorted()}
+		itemHeight={24}
+		let:item
+		let:index
+	>
 		<div
 			id={index}
 			class="item"
