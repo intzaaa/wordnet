@@ -1,11 +1,12 @@
 import { readable } from 'svelte/store';
 
-let wordnet = {},
-	res = await fetch('/wordnet.json.gz');
-if (res.ok) {
-	wordnet = readable(await res.json());
-} else {
-	wordnet = readable(false);
+async function get() {
+	const res = await fetch('/wordnet.json.gz');
+	if (res.ok) {
+		return readable(await res.json());
+	} else {
+		return readable(false);
+	}
 }
 
-export { wordnet };
+export const wordnet = await get();

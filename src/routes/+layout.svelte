@@ -17,4 +17,7 @@
 	.main {
 		@apply h-screen w-full;
 	}
+	.content {
+		@apply pl-2 pr-4;
+	}
 </style>
