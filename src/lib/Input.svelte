@@ -1,7 +1,7 @@
 <script>
 	import * as _ from 'lodash-es';
-	import { input } from './load/input';
-	import { history } from './load/current';
+	import { input } from './store/input';
+	import { current, history } from './store/current';
 	let id = NaN;
 	let level = 0;
 	$: length = $history.length - 1;
@@ -21,21 +21,32 @@
 			}
 		}
 	};
+	current.subscribe(() => (level = 0));
+	let value = '';
+	input.subscribe((i) => (value = i));
 </script>
 
 <div class="main">
 	<input
-		bind:value={$input}
+		bind:value
+		type="text"
+		placeholder="Search here..."
 		on:keyup={(e) => {
 			if (id) {
 				clearTimeout(id);
 			}
 			id = setTimeout(() => {
-				input.set(e.target.value);
-			}, 100);
+				if ($input.toLowerCase() !== e.target.value.toLowerCase() && e.target.value.length > 1) {
+					input.set(e.target.value);
+				}
+			}, 1000);
 		}}
 		on:change={(e) => {
-			input.set(e.target.value);
+			setTimeout(() => {
+				if ($input.toLowerCase() !== e.target.value.toLowerCase() && e.target.value.length > 1) {
+					input.set(e.target.value);
+				}
+			}, 100);
 		}}
 	/>
 	<div class="ctrl">
@@ -81,7 +92,7 @@
 		@apply h-full;
 	}
 	.ctrl {
-		@apply w-[40vh] columns-2 bg-transparent;
+		@apply w-[60vh] cursor-pointer columns-3 gap-0 bg-transparent;
 	}
 	.ctrl > div {
 		@apply h-full w-full opacity-50;

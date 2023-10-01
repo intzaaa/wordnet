@@ -1,19 +1,9 @@
 <script>
 	import * as _ from 'lodash-es';
-	import { wordnet } from '$lib/load/wordnet';
-	import { input } from './load/input';
-	import { current } from './load/current';
+	import { input } from './store/input';
+	import { current } from './store/current';
+	import { search } from '$lib/tool/search';
 
-	const search = {
-		word: function (word) {
-			return _.filter($wordnet.synset, (i) => {
-				return i.word.includes(word.replaceAll(' ', '_'));
-			});
-		},
-		synset: function (synset) {
-			return $wordnet.synset[synset];
-		}
-	};
 	function splitSentence(sentence) {
 		const iterator = new Intl.Segmenter('en', { granularity: 'word' });
 		let result = [];
@@ -36,20 +26,22 @@
 	on:dblclick={(e) => {
 		const x = e.clientX;
 		const y = e.clientY;
-		const value = document.elementFromPoint(x, y).textContent;
-		const blacklist = ['View Pointers'];
-		if (!blacklist.includes(value)) input.set(value);
+		const ele = document.elementFromPoint(x, y);
+		console.log(ele, ele.dataset.ns);
+		const value = ele.textContent;
+		const blacklist = ['[', ']'];
+		if (!(ele.dataset.ns === '' ? true : false) && !blacklist.includes(value)) input.set(value);
 	}}
 >
 	<div>
-		<div class="head">{$current}</div>
+		<div class="head" data-ns>{$current}</div>
 		{#each search.word($current) as synset}
 			<div class="synset">
-				<div class="title">
-					<span class="pos">{synset.pos}</span>: {@html splitSentence(synset.gloss)}
-					<span class="l">({synset.pos + synset.offset})</span>
+				<div class="title" data-ns>
+					<span class="pos" data-ns>{synset.pos}</span>: {@html splitSentence(synset.gloss)}
+					<span class="l" data-ns>({synset.pos + synset.offset})</span>
 				</div>
-				<div class="other-word">
+				<div class="words" data-ns="">
 					{#if _.without(synset.word, $current).length > 0}
 						{`> `}
 						{#each _.without(synset.word, $current) as word}
@@ -59,12 +51,17 @@
 				</div>
 				<div class="pointer">
 					<details>
-						<summary><ns>View Pointers</ns></summary>
+						<summary><ns data-ns>View Pointers</ns></summary>
 						{#each synset.pointer as pointer}
 							<div>
-								<b>{pointer.symbol}</b>: {#each search.synset(pointer.synset).word as word}
-									<div class="i"><ns>[</ns><span>{word.replaceAll('_', ' ')}</span><ns>]</ns></div>
-								{/each}<span class="l">({pointer.synset})</span>
+								<b>{pointer.symbol}</b>:
+								<span class="words"
+									>{#each search.synset(pointer.synset).word as word}
+										<div class="i">
+											<ns>[</ns><span>{word.replaceAll('_', ' ')}</span><ns>]</ns>
+										</div>
+									{/each}</span
+								><span class="l">({pointer.synset})</span>
 							</div>
 						{/each}
 					</details>
@@ -72,9 +69,9 @@
 			</div>
 		{/each}
 	</div>
-</div>
-<div>
-	<p class="sign">* Powered by WordNet (A Lexical Database for English). Made by HYH!</p>
+	<div>
+		<p class="sign" data-ns>* Powered by WordNet (A Lexical Database for English). Made by HYH!</p>
+	</div>
 </div>
 
 <style lang="postcss">
@@ -82,7 +79,10 @@
 		@apply text-lg;
 	}
 	.i {
-		@apply inline;
+		@apply inline whitespace-nowrap;
+	}
+	.i > span {
+		@apply select-all;
 	}
 	.l {
 		@apply text-xs opacity-25;
@@ -100,7 +100,6 @@
 		@apply select-none;
 	}
 	.head,
-	.other-word,
 	.pointer,
 	.synset {
 		@apply pl-4;

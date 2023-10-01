@@ -5,6 +5,7 @@
 	export let items;
 	export let height = '100%';
 	export let itemHeight = undefined;
+	export let maxItems = Infinity; // 添加控制最大项目数的属性
 
 	let foo;
 
@@ -28,6 +29,9 @@
 	$: visible = items.slice(start, end).map((data, i) => {
 		return { index: i + start, data };
 	});
+
+	// 限制显示的最大项目数
+	$: visible = visible.slice(0, maxItems);
 
 	// whenever `items` changes, invalidate the current heightmap
 	$: if (mounted) refresh(items, viewport_height, itemHeight);
