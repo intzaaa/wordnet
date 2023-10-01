@@ -156,6 +156,10 @@
 </svelte-virtual-list-viewport>
 
 <style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
 	svelte-virtual-list-viewport {
 		position: relative;
 		overflow-y: auto;

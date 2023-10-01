@@ -27,7 +27,7 @@
 		const x = e.clientX;
 		const y = e.clientY;
 		const ele = document.elementFromPoint(x, y);
-		console.log(ele, ele.dataset.ns);
+		console.log(e, ele, ele.dataset.ns);
 		const value = ele.textContent;
 		const blacklist = ['[', ']'];
 		if (!(ele.dataset.ns === '' ? true : false) && !blacklist.includes(value)) input.set(value);
@@ -86,9 +86,6 @@
 	}
 	.l {
 		@apply text-xs opacity-25;
-	}
-	.main {
-		@apply pb-2 pt-2;
 	}
 	.head {
 		@apply text-2xl font-medium;

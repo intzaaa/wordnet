@@ -29,9 +29,9 @@
 		@apply flex h-[80vh] flex-row;
 	}
 	.list {
-		@apply h-full w-[30%] overflow-hidden bg-slate-100 pl-2;
+		@apply h-full w-[30%] overflow-hidden bg-slate-100 pb-2 pl-2 pt-2;
 	}
 	.word {
-		@apply h-full w-[70%] overflow-y-scroll bg-slate-50 pr-2;
+		@apply h-full w-[70%] overflow-y-scroll bg-slate-50 pb-2 pr-2 pt-2;
 	}
 </style>

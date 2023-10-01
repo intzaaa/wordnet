@@ -21,24 +21,35 @@
 			console.log(words);
 		}
 	});
-	async function listPos(name, timeout) {
-		const list = new Set();
+	async function info(name, timeout) {
+		const pos = new Set(),
+			words = new Set();
 		await new Promise((r) => setTimeout(r, timeout));
 		search.word(name).forEach((i) => {
-			list.add(i.pos);
+			pos.add(i.pos);
+			i.word.forEach((i) => {
+				words.add(i);
+			});
 		});
-		return Array.from(list).join(', ');
+		return {
+			pos: Array.from(pos).join(', '),
+			words:
+				'<span style="white-space: nowrap">[' +
+				_.without(Array.from(words), name)
+					.join(']</span><span style="white-space: nowrap">[')
+					.replaceAll('_', ' ') +
+				']</span>'
+		};
 	}
 </script>
 
 <div class="main">
 	<VirtualList
-		items={words.size < 1000
+		items={words.size < 10000
 			? Array.from(words)
 					.map((i) => i.replaceAll('_', ' '))
 					.toSorted()
 			: []}
-		itemHeight={24}
 		bind:start
 		bind:end
 		let:item
@@ -49,20 +60,21 @@
 			class="item"
 			role="button"
 			tabindex="0"
-			on:click={(e) => {
-				current.set(e.target.innerText);
+			on:click={() => {
+				current.set(item);
 			}}
 			on:keypress={(e) => {
-				current.set(e.target.innerText);
+				current.set(item);
 			}}
 		>
-			{item}
+			<span class="word">{item}</span>
+			{#await info(item, 0) then info}
+				<span class="pos">({info.pos})</span>
+				<div class="words">
+					{`> `}{@html info.words}
+				</div>
+			{/await}
 		</div>
-		<span class="pos"
-			>{#await listPos(item, index - start) then pos}
-				({pos})
-			{/await}</span
-		>
 	</VirtualList>
 </div>
 
@@ -71,9 +83,15 @@
 		@apply h-full w-full;
 	}
 	.item {
-		@apply inline-block h-6 cursor-pointer;
+		@apply inline-block h-[60px]  pb-1 pr-2 pt-1;
+	}
+	.word {
+		@apply cursor-pointer;
 	}
 	.pos {
 		@apply text-xs;
+	}
+	.words {
+		@apply line-clamp-2 overflow-ellipsis pl-2 text-xs;
 	}
 </style>
