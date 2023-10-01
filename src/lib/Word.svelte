@@ -10,7 +10,7 @@
 		Array.from(iterator.segment(sentence)).forEach((i) => {
 			console.log(i);
 			if (i.isWordLike) {
-				result.push(`<span>${i.segment}</span>`);
+				result.push(`<span data-s>${i.segment}</span>`);
 			} else {
 				result.push(i.segment);
 			}
@@ -27,38 +27,39 @@
 		const x = e.clientX;
 		const y = e.clientY;
 		const ele = document.elementFromPoint(x, y);
-		console.log(e, ele, ele.dataset.ns);
 		const value = ele.textContent;
 		const blacklist = ['[', ']'];
-		if (!(ele.dataset.ns === '' ? true : false) && !blacklist.includes(value)) input.set(value);
+		if ((ele.dataset.s === '' ? true : false) && !blacklist.includes(value)) input.set(value);
 	}}
 >
 	<div>
-		<div class="head" data-ns>{$current}</div>
+		<div class="head">{$current}</div>
 		{#each search.word($current) as synset}
 			<div class="synset">
-				<div class="title" data-ns>
-					<span class="pos" data-ns>{synset.pos}</span>: {@html splitSentence(synset.gloss)}
-					<span class="l" data-ns>({synset.pos + synset.offset})</span>
+				<div class="title">
+					<span class="pos">{synset.pos}</span>: {@html splitSentence(synset.gloss)}
+					<span class="l">({synset.pos + synset.offset})</span>
 				</div>
-				<div class="words" data-ns="">
+				<div class="words">
 					{#if _.without(synset.word, $current).length > 0}
 						{`> `}
 						{#each _.without(synset.word, $current) as word}
-							<div class="i"><ns>[</ns><span>{word.replaceAll('_', ' ')}</span><ns>]</ns></div>
+							<div class="i">
+								<ns>[</ns><span data-s>{word.replaceAll('_', ' ')}</span><ns>]</ns>
+							</div>
 						{/each}
 					{/if}
 				</div>
 				<div class="pointer">
 					<details>
-						<summary data-ns><ns data-ns>View Pointers</ns></summary>
+						<summary><ns>View Pointers</ns></summary>
 						{#each synset.pointer as pointer}
 							<div>
 								<b>{pointer.symbol}</b>:
 								<span class="words"
 									>{#each search.synset(pointer.synset).word as word}
 										<div class="i">
-											<ns>[</ns><span>{word.replaceAll('_', ' ')}</span><ns>]</ns>
+											<ns>[</ns><span data-s>{word.replaceAll('_', ' ')}</span><ns>]</ns>
 										</div>
 									{/each}</span
 								><span class="l">({pointer.synset})</span>
@@ -70,7 +71,7 @@
 		{/each}
 	</div>
 	<div>
-		<p class="sign" data-ns>* Powered by WordNet (A Lexical Database for English). Made by HYH!</p>
+		<p class="sign">* Powered by WordNet (A Lexical Database for English). Made by HYH!</p>
 	</div>
 </div>
 
