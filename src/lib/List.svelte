@@ -34,22 +34,22 @@
 		return {
 			pos: Array.from(pos).join(', '),
 			words:
-				'<span style="white-space: nowrap">[' +
-				_.without(Array.from(words), name)
-					.join(']</span><span style="white-space: nowrap">[')
-					.replaceAll('_', ' ') +
-				']</span>'
+				words.size >= 2
+					? '<span style="white-space: nowrap">[' +
+					  _.without(Array.from(words), name)
+							.join(']</span><span style="white-space: nowrap">[')
+							.replaceAll('_', ' ') +
+					  ']</span>'
+					: false
 		};
 	}
 </script>
 
 <div class="main">
 	<VirtualList
-		items={words.size < 10000
-			? Array.from(words)
-					.map((i) => i.replaceAll('_', ' '))
-					.toSorted()
-			: []}
+		items={Array.from(words)
+			.map((i) => i.replaceAll('_', ' '))
+			.toSorted()}
 		bind:start
 		bind:end
 		let:item
@@ -68,10 +68,12 @@
 			}}
 		>
 			<span class="word">{item}</span>
-			{#await info(item, 0) then info}
+			{#await info(item, index - start) then info}
 				<span class="pos">({info.pos})</span>
 				<div class="words">
-					{`> `}{@html info.words}
+					{#if info.words}
+						{`> `}{@html info.words}
+					{/if}
 				</div>
 			{/await}
 		</div>

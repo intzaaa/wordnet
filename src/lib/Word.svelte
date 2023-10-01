@@ -51,7 +51,7 @@
 				</div>
 				<div class="pointer">
 					<details>
-						<summary><ns data-ns>View Pointers</ns></summary>
+						<summary data-ns><ns data-ns>View Pointers</ns></summary>
 						{#each synset.pointer as pointer}
 							<div>
 								<b>{pointer.symbol}</b>:
