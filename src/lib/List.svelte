@@ -37,7 +37,7 @@
 				words.size >= 2
 					? '<span style="white-space: nowrap">[' +
 					  _.without(Array.from(words), name)
-							.join(']</span><span style="white-space: nowrap">[')
+							.join(']</span> <span style="white-space: nowrap">[')
 							.replaceAll('_', ' ') +
 					  ']</span>'
 					: false
@@ -73,6 +73,8 @@
 				<div class="words">
 					{#if info.words}
 						{`> `}{@html info.words}
+					{:else}
+						{`-`}
 					{/if}
 				</div>
 			{/await}
